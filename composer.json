@@ -2,7 +2,7 @@
   "name": "juanyaolin/laravel-api-response-builder",
   "description": "A laravel package for easily build json api response.",
   "homepage": "https://github.com/juanyaolin/laravel-api-response-builder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "keywords": [
     "laravel",
     "json",
@@ -29,7 +29,7 @@
     }
   },
   "require": {
-    "php": "^7.4|^8.0|^8.1",
-    "laravel/framework": "^8.0|^9.0|^10.0"
+    "php": "^8.1",
+    "laravel/framework": "^10.0"
   }
 }

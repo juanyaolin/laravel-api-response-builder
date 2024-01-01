@@ -15,7 +15,7 @@ class DefaultApiResponseStructure extends ApiResponseStructureContract
             'data' => $this->data,
         ];
 
-        if (!$this->success && !is_null($this->data)) {
+        if (!$this->success && !is_null($this->debugData)) {
             $response['debug'] = $this->debugData;
         }
 

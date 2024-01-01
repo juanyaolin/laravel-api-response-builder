@@ -2,9 +2,8 @@
 
 namespace Juanyaolin\ApiResponseBuilder\Traits;
 
-use Illuminate\Http\Request;
 use Juanyaolin\ApiResponseBuilder\Facades\ApiResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 trait HasApiResponseMethods
 {
@@ -14,16 +13,18 @@ trait HasApiResponseMethods
     public function success(
         mixed $data = null,
         string $message = null,
-        int $httpCode = null,
+        int $statusCode = null,
         int $apiCode = null,
+        array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
-    ): JsonResponse {
+    ): Response {
         return ApiResponse::success(
             $data,
             $message,
-            $httpCode,
+            $statusCode,
             $apiCode,
+            $additional,
             $httpHeader,
             $jsonOptions
         );
@@ -35,30 +36,22 @@ trait HasApiResponseMethods
     public function error(
         int $apiCode = null,
         string $message = null,
-        int $httpCode = null,
+        int $statusCode = null,
         array $debugData = null,
         mixed $data = null,
+        array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
-    ): JsonResponse {
+    ): Response {
         return ApiResponse::error(
             $apiCode,
             $message,
-            $httpCode,
+            $statusCode,
             $debugData,
             $data,
+            $additional,
             $httpHeader,
             $jsonOptions,
         );
-    }
-
-    /**
-     * An renderer for Exception Handler.
-     */
-    public function exceptionRenderer(
-        \Throwable $throwable,
-        Request $request
-    ): JsonResponse {
-        return ApiResponse::exceptionRenderer($throwable, $request);
     }
 }

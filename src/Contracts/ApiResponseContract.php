@@ -2,10 +2,9 @@
 
 namespace Juanyaolin\ApiResponseBuilder\Contracts;
 
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-interface ApiResponseInterface
+interface ApiResponseContract
 {
     /**
      * Make a success response.
@@ -13,11 +12,12 @@ interface ApiResponseInterface
     public function success(
         mixed $data = null,
         string $message = null,
-        int $httpCode = null,
+        int $statusCode = null,
         int $apiCode = null,
+        array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
-    ): JsonResponse;
+    ): Response;
 
     /*
      * Make a error response.
@@ -25,18 +25,11 @@ interface ApiResponseInterface
     public function error(
         int $apiCode = null,
         string $message = null,
-        int $httpCode = null,
+        int $statusCode = null,
         array $debugData = null,
         mixed $data = null,
+        array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
-    ): JsonResponse;
-
-    /**
-     * An renderer for exception handler.
-     */
-    public function exceptionRenderer(
-        \Throwable $throwable,
-        Request $request
-    ): JsonResponse;
+    ): Response;
 }

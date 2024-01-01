@@ -2,6 +2,27 @@
 
 A api response builder
 
-## Documents
+## Installation
 
-Documents can be found in [/documents](documents/documents.md)
+To install package, run with composer:
+
+```
+composer require juanyaolin/laravel-api-response-builder
+```
+
+## Basic usage
+
+After install, `ApiResponse` facade is ready for returning response. More detailed usage can be found in [document](documents/documents.md).
+
+```php
+use Juanyaolin\ApiResponseBuilder\Facades\ApiResponse;
+
+...
+
+// Success response
+return ApiResponse::success();
+
+// Error response
+return ApiResponse::error();
+```
+

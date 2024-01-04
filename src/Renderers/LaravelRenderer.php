@@ -7,7 +7,7 @@ use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionRendererContract;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class DefaultRenderer implements ExceptionRendererContract
+class LaravelRenderer implements ExceptionRendererContract
 {
     public function render(Throwable $throwable, Request $request): ?Response
     {

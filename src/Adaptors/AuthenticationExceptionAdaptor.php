@@ -1,25 +1,30 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder\ExceptionAdaptors;
+namespace Juanyaolin\ApiResponseBuilder\Adaptors;
 
-use BackedEnum;
 use Illuminate\Auth\AuthenticationException;
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
+use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
+use MyCLabs\Enum\Enum;
 use Symfony\Component\HttpFoundation\Response;
+use UnitEnum;
 
 class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    public function __construct(protected AuthenticationException $exception)
+    protected AuthenticationException $exception;
+
+    public function __construct(AuthenticationException $exception)
     {
+        $this->exception = $exception;
     }
 
-    public function apiCode(): int
+    public function apiCode()
     {
-        return $this->apiCodeEnum()->value;
+        return $this->apiCodeEnum()->apiCode();
     }
 
     public function statusCode(): int
@@ -40,12 +45,17 @@ class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
         );
     }
 
-    public function data(): mixed
+    public function data()
     {
         return null;
     }
 
     public function debug(): ?array
+    {
+        return null;
+    }
+
+    public function additional(): ?array
     {
         return null;
     }
@@ -56,10 +66,14 @@ class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
     }
 
     /**
-     * @return BackedEnum|\Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract
+     * @return ApiCodeContract|Enum|UnitEnum
      */
     protected function apiCodeEnum()
     {
-        return config(Constant::CONF_KEY_RENDERER_API_CODES)::AuthenticationException;
+        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
+
+        return is_subclass_of($apiCodeClass, Enum::class)
+            ? $apiCodeClass::AuthenticationException()
+            : $apiCodeClass::AuthenticationException;
     }
 }

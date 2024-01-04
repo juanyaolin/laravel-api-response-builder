@@ -1,11 +1,11 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder;
+namespace Juanyaolin\ApiResponseBuilder\ApiCodes;
 
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Symfony\Component\HttpFoundation\Response;
 
-enum DefaultApiCode: int implements ApiCodeContract
+enum DefaultApiCodeEnum: int implements ApiCodeContract
 {
     case Success = 0;
     case UncaughtException = -1;
@@ -13,6 +13,11 @@ enum DefaultApiCode: int implements ApiCodeContract
     case AuthenticationException = -3;
     case HttpException = -4;
     case ApiException = -5;
+
+    public function apiCode()
+    {
+        return $this->value;
+    }
 
     public function statusCode(): int
     {

@@ -1,17 +1,16 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder;
+namespace Juanyaolin\ApiResponseBuilder\Renderers;
 
 use Illuminate\Http\Request;
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionRendererContract;
-use Juanyaolin\ApiResponseBuilder\Exceptions\ShouldImplementInterfaceException;
 use Juanyaolin\ApiResponseBuilder\Traits\HasApiResponseMethods;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class DefaultExceptionRenderer implements ExceptionRendererContract
+class DefaultRenderer implements ExceptionRendererContract
 {
     use HasApiResponseMethods;
 
@@ -69,19 +68,10 @@ class DefaultExceptionRenderer implements ExceptionRendererContract
 
     /**
      * Prepare adaptor match to $throwable.
-     *
-     * @throws ShouldImplementInterfaceException
      */
     protected function prepareAdaptor(): ExceptionAdaptorContract
     {
         $adaptor = $this->getExceptionConfig()[Constant::KEY_ADAPTOR];
-
-        throw_unless(
-            is_subclass_of($adaptor, ExceptionAdaptorContract::class),
-            ShouldImplementInterfaceException::class,
-            $adaptor,
-            ExceptionAdaptorContract::class
-        );
 
         return new $adaptor($this->throwable);
     }
@@ -124,6 +114,7 @@ class DefaultExceptionRenderer implements ExceptionRendererContract
             $this->adaptor->statusCode(),
             $this->adaptor->debug(),
             $this->adaptor->data(),
+            $this->adaptor->additional(),
             $this->adaptor->httpHeaders()
         );
     }

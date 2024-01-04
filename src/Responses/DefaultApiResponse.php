@@ -1,20 +1,18 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder;
+namespace Juanyaolin\ApiResponseBuilder\Responses;
 
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilder;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiResponseContract;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultApiResponse implements ApiResponseContract
 {
-    /**
-     * Make a success response.
-     */
     public function success(
-        mixed $data = null,
+        $data = null,
         string $message = null,
         int $statusCode = null,
-        int $apiCode = null,
+        $apiCode = null,
         array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
@@ -29,15 +27,12 @@ class DefaultApiResponse implements ApiResponseContract
             ->build();
     }
 
-    /*
-     * Make a error response.
-     */
     public function error(
-        int $apiCode = null,
+        $apiCode = null,
         string $message = null,
         int $statusCode = null,
         array $debugData = null,
-        mixed $data = null,
+        $data = null,
         array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null

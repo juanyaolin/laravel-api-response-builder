@@ -1,23 +1,29 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder\ExceptionAdaptors;
+namespace Juanyaolin\ApiResponseBuilder\Adaptors;
 
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
+use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
+use MyCLabs\Enum\Enum;
 use Throwable;
+use UnitEnum;
 
 class DefaultExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    public function __construct(protected Throwable $exception)
+    protected Throwable $exception;
+
+    public function __construct(Throwable $exception)
     {
+        $this->exception = $exception;
     }
 
-    public function apiCode(): int
+    public function apiCode()
     {
-        return $this->apiCodeEnum()->value;
+        return $this->apiCodeEnum()->apiCode();
     }
 
     public function statusCode(): int
@@ -32,7 +38,7 @@ class DefaultExceptionAdaptor implements ExceptionAdaptorContract
             : $this->apiCodeEnum()->message();
     }
 
-    public function data(): mixed
+    public function data()
     {
         return null;
     }
@@ -42,16 +48,25 @@ class DefaultExceptionAdaptor implements ExceptionAdaptorContract
         return $this->convertExceptionToArray($this->exception);
     }
 
+    public function additional(): ?array
+    {
+        return null;
+    }
+
     public function httpHeaders(): ?array
     {
         return null;
     }
 
     /**
-     * @return BackedEnum|\Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract
+     * @return ApiCodeContract|Enum|UnitEnum
      */
     protected function apiCodeEnum()
     {
-        return config(Constant::CONF_KEY_RENDERER_API_CODES)::UncaughtException;
+        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
+
+        return is_subclass_of($apiCodeClass, Enum::class)
+            ? $apiCodeClass::UncaughtException()
+            : $apiCodeClass::UncaughtException;
     }
 }

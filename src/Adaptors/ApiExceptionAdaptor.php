@@ -1,6 +1,6 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder\ExceptionAdaptors;
+namespace Juanyaolin\ApiResponseBuilder\Adaptors;
 
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Exceptions\ApiException;
@@ -10,11 +10,14 @@ class ApiExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    public function __construct(protected ApiException $exception)
+    protected ApiException $exception;
+
+    public function __construct(ApiException $exception)
     {
+        $this->exception = $exception;
     }
 
-    public function apiCode(): int
+    public function apiCode()
     {
         return $this->exception->getApiCode();
     }
@@ -29,7 +32,7 @@ class ApiExceptionAdaptor implements ExceptionAdaptorContract
         return $this->exception->getMessage();
     }
 
-    public function data(): mixed
+    public function data()
     {
         return $this->exception->getData();
     }
@@ -37,6 +40,11 @@ class ApiExceptionAdaptor implements ExceptionAdaptorContract
     public function debug(): ?array
     {
         return $this->convertExceptionToArray($this->exception);
+    }
+
+    public function additional(): ?array
+    {
+        return $this->exception->getAdditional();
     }
 
     public function httpHeaders(): ?array

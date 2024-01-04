@@ -4,7 +4,7 @@ namespace Juanyaolin\ApiResponseBuilder\Exceptions;
 
 use InvalidArgumentException;
 
-class ShouldImplementInterfaceException extends InvalidArgumentException
+class ShouldBeSubclassOfContractException extends InvalidArgumentException
 {
     public function __construct(string $class, string $contract)
     {

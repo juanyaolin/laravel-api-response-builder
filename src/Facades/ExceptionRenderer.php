@@ -3,7 +3,7 @@
 namespace Juanyaolin\ApiResponseBuilder\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 
 /**
  * @method static \Symfony\Component\HttpFoundation\Response render(\Throwable $throwable, \Illuminate\Http\Request $request)

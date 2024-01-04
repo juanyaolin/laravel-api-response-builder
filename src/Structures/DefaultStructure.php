@@ -1,11 +1,13 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder;
+namespace Juanyaolin\ApiResponseBuilder\Structures;
 
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiResponseStructureContract;
 
-class DefaultApiResponseStructure extends ApiResponseStructureContract
+class DefaultStructure extends ApiResponseStructureContract
 {
+    // Notice that the `additional` property is not used by this structure
+
     public function make(): array
     {
         $response = [

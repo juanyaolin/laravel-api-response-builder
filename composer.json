@@ -2,14 +2,26 @@
   "name": "juanyaolin/laravel-api-response-builder",
   "description": "A laravel package for easily build json api response.",
   "homepage": "https://github.com/juanyaolin/laravel-api-response-builder",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "keywords": [
     "laravel",
+    "laravel8",
+    "laravel9",
+    "laravel10",
+    "php",
+    "php74",
+    "php8",
+    "php81",
+    "php82",
+    "php83",
     "json",
     "api",
+    "response",
     "builder",
-    "php"
+    "exception",
+    "error"
   ],
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Juanyaolin\\ApiResponseBuilder\\": "src/"
@@ -21,6 +33,10 @@
       "email": "maple96541@gmail.com"
     }
   ],
+  "support": {
+    "source": "https://github.com/juanyaolin/laravel-api-response-builder/",
+    "issues": "https://github.com/juanyaolin/laravel-api-response-builder/issues"
+  },
   "extra": {
     "laravel": {
       "providers": [
@@ -29,7 +45,8 @@
     }
   },
   "require": {
-    "php": ">= 7.4.0",
-    "laravel/framework": ">= 8.0.0"
+    "php": "^7.4|^8.0|^8.1|^8.2|^8.3",
+    "laravel/framework": "^8.0|^9.0|^10.0",
+    "myclabs/php-enum": "^1.8"
   }
 }

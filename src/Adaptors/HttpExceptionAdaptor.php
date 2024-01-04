@@ -1,25 +1,30 @@
 <?php
 
-namespace Juanyaolin\ApiResponseBuilder\ExceptionAdaptors;
+namespace Juanyaolin\ApiResponseBuilder\Adaptors;
 
-use BackedEnum;
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
+use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
+use MyCLabs\Enum\Enum;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use UnitEnum;
 
 class HttpExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    public function __construct(protected HttpException $exception)
+    protected HttpException $exception;
+
+    public function __construct(HttpException $exception)
     {
+        $this->exception = $exception;
     }
 
-    public function apiCode(): int
+    public function apiCode()
     {
-        return $this->apiCodeEnum()->value;
+        return $this->apiCodeEnum()->apiCode();
     }
 
     public function statusCode(): int
@@ -40,7 +45,7 @@ class HttpExceptionAdaptor implements ExceptionAdaptorContract
         );
     }
 
-    public function data(): mixed
+    public function data()
     {
         return null;
     }
@@ -50,16 +55,25 @@ class HttpExceptionAdaptor implements ExceptionAdaptorContract
         return $this->convertExceptionToArray($this->exception);
     }
 
+    public function additional(): ?array
+    {
+        return null;
+    }
+
     public function httpHeaders(): ?array
     {
         return $this->exception->getHeaders();
     }
 
     /**
-     * @return BackedEnum|\Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract
+     * @return ApiCodeContract|Enum|UnitEnum
      */
     protected function apiCodeEnum()
     {
-        return config(Constant::CONF_KEY_RENDERER_API_CODES)::HttpException;
+        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
+
+        return is_subclass_of($apiCodeClass, Enum::class)
+            ? $apiCodeClass::HttpException()
+            : $apiCodeClass::HttpException;
     }
 }

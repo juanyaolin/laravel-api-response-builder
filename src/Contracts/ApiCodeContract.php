@@ -5,12 +5,19 @@ namespace Juanyaolin\ApiResponseBuilder\Contracts;
 interface ApiCodeContract
 {
     /**
-     * Message of enumeration case.
+     * Value of ApiCode enumeration case.
+     *
+     * @return int|string
      */
-    public function message(): string;
+    public function apiCode();
 
     /**
      * Http status code of enumeration case.
      */
     public function statusCode(): int;
+
+    /**
+     * Message of enumeration case.
+     */
+    public function message(): string;
 }

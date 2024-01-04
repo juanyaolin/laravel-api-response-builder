@@ -3,11 +3,11 @@
 namespace Juanyaolin\ApiResponseBuilder\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstants as Constant;
+use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 
 /**
- * @method static \Symfony\Component\HttpFoundation\Response success(mixed $data = null, string $message = null, int $statusCode = null, int $apiCode = null, array $additional = null, array $httpHeader = null, int $jsonOptions = null)
- * @method static \Symfony\Component\HttpFoundation\Response error(int $apiCode = null, string $message = null, int $statusCode = null, array $debugData = null, mixed $data = null, array $additional = null, array $httpHeader = null, int $jsonOptions = null)
+ * @method static \Symfony\Component\HttpFoundation\Response success($data = null, string|null $message = null, int|null $statusCode = null, int|string|null $apiCode = null, array|null $additional = null, array|null $httpHeader = null, int|null $jsonOptions = null)
+ * @method static \Symfony\Component\HttpFoundation\Response error(int|string|null $apiCode = null, string|null $message = null, int|null $statusCode = null, array|null $debugData = null, $data = null, array|null $additional = null, array|null $httpHeader = null, int|null $jsonOptions = null)
  *
  * @see \Juanyaolin\ApiResponseBuilder\Contracts\ApiResponseContract
  */

@@ -8,26 +8,30 @@ interface ApiResponseContract
 {
     /**
      * Make a success response.
+     *
+     * @param int|string|null $apiCode
      */
     public function success(
-        mixed $data = null,
+        $data = null,
         string $message = null,
         int $statusCode = null,
-        int $apiCode = null,
+        $apiCode = null,
         array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null
     ): Response;
 
-    /*
+    /**
      * Make a error response.
+     *
+     * @param int|string|null $apiCode
      */
     public function error(
-        int $apiCode = null,
+        $apiCode = null,
         string $message = null,
         int $statusCode = null,
         array $debugData = null,
-        mixed $data = null,
+        $data = null,
         array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null

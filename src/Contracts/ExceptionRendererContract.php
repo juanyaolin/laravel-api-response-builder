@@ -8,5 +8,8 @@ use Throwable;
 
 interface ExceptionRendererContract
 {
+    /**
+     * Render the given exception.
+     */
     public function render(Throwable $throwable, Request $request): ?Response;
 }

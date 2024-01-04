@@ -2,26 +2,61 @@
 
 namespace Juanyaolin\ApiResponseBuilder\Contracts;
 
-/**
- * @property bool|null   $success    Determine if the api is processed successful
- * @property int|null    $apiCode    The api code of response
- * @property int|null    $statusCode Http status code
- * @property string|null $message    The message of response
- * @property mixed|null  $data       The data of response
- * @property array|null  $debugData  The data for debugging
- * @property array|null  $additional Additional data for developer customization
- */
 abstract class ApiResponseStructureContract
 {
+    /**
+     * Determine if the api is processed successful.
+     */
+    protected ?bool $success = null;
+
+    /**
+     * The api code of response.
+     *
+     * @var int|string|null
+     */
+    protected $apiCode;
+
+    /**
+     * Http status code.
+     */
+    protected ?int $statusCode = null;
+
+    /**
+     * The message of response.
+     */
+    protected ?string $message = null;
+
+    /**
+     * The data of response.
+     */
+    protected $data;
+
+    /**
+     * The data for debugging.
+     */
+    protected ?array $debugData = null;
+
+    /**
+     * Additional data for developer customization.
+     */
+    protected ?array $additional = null;
+
     public function __construct(
-        protected ?bool $success = null,
-        protected ?int $apiCode = null,
-        protected ?int $statusCode = null,
-        protected ?string $message = null,
-        protected mixed $data = null,
-        protected ?array $debugData = null,
-        protected ?array $additional = null
+        bool $success = null,
+        $apiCode = null,
+        int $statusCode = null,
+        string $message = null,
+        $data = null,
+        array $debugData = null,
+        array $additional = null
     ) {
+        $this->success = $success;
+        $this->apiCode = $apiCode;
+        $this->statusCode = $statusCode;
+        $this->message = $message;
+        $this->data = $data;
+        $this->debugData = $debugData;
+        $this->additional = $additional;
     }
 
     /**

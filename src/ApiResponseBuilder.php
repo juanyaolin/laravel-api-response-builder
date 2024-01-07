@@ -235,12 +235,12 @@ class ApiResponseBuilder
             /** @var ApiCodeContract */
             $apiCodeEnum = $this->success
                 ? $apiCodeClass::Success()
-                : $apiCodeClass::UncaughtException();
+                : $apiCodeClass::Error();
         } else {
             /** @var ApiCodeContract */
             $apiCodeEnum = $this->success
                 ? $apiCodeClass::Success
-                : $apiCodeClass::UncaughtException;
+                : $apiCodeClass::Error;
         }
 
         return $apiCodeEnum->apiCode();

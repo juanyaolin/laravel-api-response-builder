@@ -2,7 +2,7 @@
   "name": "juanyaolin/laravel-api-response-builder",
   "description": "A laravel package for easily build json api response.",
   "homepage": "https://github.com/juanyaolin/laravel-api-response-builder",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "keywords": [
     "laravel",
     "laravel8",

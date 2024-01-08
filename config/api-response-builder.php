@@ -17,23 +17,6 @@ return [
     ],
 
     /**
-     * Configurations for ApiResponse.
-     */
-    'response' => [
-        /**
-         * Facade key name for facade ApiResponse.
-         */
-        'facade' => 'ApiResponse',
-
-        /**
-         * The class that ApiResponse facade will be used.
-         *
-         * Feel free to change, and make sure to be a subclass of 'ApiResponseContract'.
-         */
-        'class' => \Juanyaolin\ApiResponseBuilder\Responses\DefaultApiResponse::class,
-    ],
-
-    /**
      * Configurations for ApiResponseBuilder.
      */
     'builder' => [
@@ -48,6 +31,23 @@ return [
          * JSON encoding options.
          */
         'encoding_options' => JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE,
+    ],
+
+    /**
+     * Configurations for ApiResponse.
+     */
+    'response' => [
+        /**
+         * Facade key name for facade ApiResponse.
+         */
+        'facade' => 'ApiResponse',
+
+        /**
+         * The class that ApiResponse facade will be used.
+         *
+         * Feel free to change, and make sure to be a subclass of 'ApiResponseContract'.
+         */
+        'class' => \Juanyaolin\ApiResponseBuilder\Responses\DefaultApiResponse::class,
     ],
 
     /**

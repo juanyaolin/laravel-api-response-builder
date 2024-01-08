@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 enum DefaultApiCodeEnum: int implements ApiCodeContract
 {
     case Success = 0;
-    case UncaughtException = -1;
-    case ValidationException = -2;
-    case AuthenticationException = -3;
-    case HttpException = -4;
-    case ApiException = -5;
+    case Error = -1;
+    case UncaughtException = -2;
+    case ValidationException = -3;
+    case AuthenticationException = -4;
+    case HttpException = -5;
+    case ApiException = -6;
 
     public function apiCode()
     {
@@ -23,11 +24,11 @@ enum DefaultApiCodeEnum: int implements ApiCodeContract
     {
         return match ($this) {
             self::Success => Response::HTTP_OK,
+            self::UncaughtException => Response::HTTP_INTERNAL_SERVER_ERROR,
             self::ValidationException => Response::HTTP_UNPROCESSABLE_ENTITY,
             self::AuthenticationException => Response::HTTP_UNAUTHORIZED,
-            self::HttpException => Response::HTTP_BAD_REQUEST,
-            self::ApiException => Response::HTTP_BAD_REQUEST,
-            default => Response::HTTP_INTERNAL_SERVER_ERROR,
+
+            default => Response::HTTP_BAD_REQUEST,
         };
     }
 
@@ -35,11 +36,13 @@ enum DefaultApiCodeEnum: int implements ApiCodeContract
     {
         return match ($this) {
             self::Success => 'Success',
+            self::UncaughtException => 'Server Error',
             self::ValidationException => 'Unprocessable Content',
             self::AuthenticationException => 'Unauthenticated',
             self::HttpException => 'Bad Request',
             self::ApiException => "Error [{$this->value}]",
-            default => 'Server Error',
+
+            default => 'Error',
         };
     }
 }

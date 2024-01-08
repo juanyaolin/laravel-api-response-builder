@@ -28,11 +28,11 @@ class DefaultApiResponse implements ApiResponseContract
     }
 
     public function error(
-        $apiCode = null,
         string $message = null,
-        int $statusCode = null,
-        array $debugData = null,
         $data = null,
+        int $statusCode = null,
+        $apiCode = null,
+        array $debugData = null,
         array $additional = null,
         array $httpHeader = null,
         int $jsonOptions = null

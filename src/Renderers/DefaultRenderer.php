@@ -109,11 +109,11 @@ class DefaultRenderer implements ExceptionRendererContract
     protected function prepareResponse(): ?Response
     {
         return $this->error(
-            $this->adaptor->apiCode(),
             $this->adaptor->message(),
-            $this->adaptor->statusCode(),
-            $this->adaptor->debug(),
             $this->adaptor->data(),
+            $this->adaptor->statusCode(),
+            $this->adaptor->apiCode(),
+            $this->adaptor->debug(),
             $this->adaptor->additional(),
             $this->adaptor->httpHeaders()
         );

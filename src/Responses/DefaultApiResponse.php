@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultApiResponse implements ApiResponseContract
 {
     public function success(
-        $data = null,
-        string $message = null,
-        int $statusCode = null,
-        $apiCode = null,
-        array $additional = null,
-        array $httpHeader = null,
-        int $jsonOptions = null
+        mixed $data = null,
+        ?string $message = null,
+        ?int $statusCode = null,
+        int|string|null $apiCode = null,
+        ?array $additional = null,
+        ?array $httpHeader = null,
+        ?int $jsonOptions = null
     ): Response {
         return ApiResponseBuilder::asSuccess($apiCode)
             ->withMessage($message)
@@ -28,14 +28,14 @@ class DefaultApiResponse implements ApiResponseContract
     }
 
     public function error(
-        string $message = null,
-        $data = null,
-        int $statusCode = null,
-        $apiCode = null,
-        array $debugData = null,
-        array $additional = null,
-        array $httpHeader = null,
-        int $jsonOptions = null
+        ?string $message = null,
+        mixed $data = null,
+        ?int $statusCode = null,
+        int|string|null $apiCode = null,
+        ?array $debugData = null,
+        ?array $additional = null,
+        ?array $httpHeader = null,
+        ?int $jsonOptions = null
     ): Response {
         return ApiResponseBuilder::asError($apiCode)
             ->withMessage($message)

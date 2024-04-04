@@ -12,6 +12,10 @@ This chapter will cover how to enable exception rendering, how to use the `ApiEx
 
 If you are already using `ApiResponse::success()` or `ApiResponse::error()` to create response, it is highly recommended to render exception by `ExceptionRenderer` to ensure responses from your Laravel project respond the same structure. Because clients would not hope to receive non-JSON or differently structured responses leading to unexpected errors.
 
+Because of streamlining directory structure in Laravel 11.x, the location for exception render has been modified too.
+
+### For version less than Laravel 10.x
+
 To enable the exception renderer, calling `ExceptionRenderer::render()` in `register()` of ***App\Exceptions\Handler***, as shown in the example code below.
 
 ```php
@@ -47,10 +51,38 @@ class Handler extends ExceptionHandler
 }
 ```
 
+### For version upper than Laravel 11.x
+
+Calling `ExceptionRenderer::render()` in `withExceptions()` of ***bootstrap/app.php*** as shown in the example code below, and then exception renderer will be enabled.
+
+```php
+<?php
+
+    ...
+
+    ->withExceptions(function (Exceptions $exceptions) {
+        // 將渲染器以閉包的方式帶入 renderable 方法中
+        $exceptions->renderable(function (Throwable $e, Request $request) {
+            if ($request->expectsJson()) {
+                return ExceptionRenderer::render($e, $request);
+            }
+        });
+
+        // 帶入到render方法也可以
+        // $exceptions->render(function (Throwable $e, Request $request) {
+        //     if ($request->expectsJson()) {
+        //         return ExceptionRenderer::render($e, $request);
+        //     }
+        // });
+    })
+
+    ...
+
+```
 Now, Laravel will respond with the same payload structure while exception thrown, if `Accept: application/json` is set in request header.
 
 > [!TIP]
-> There is a middleware named [***ForcedAcceptJson***](../../src/Middleware/ForcedAcceptJson.php) provided to set `Accept: application/json` to the request header, feel free to use it. More information about using middleware, please see [official documentation](https://laravel.com/docs/10.x/middleware).
+> There is a middleware named [***ForcedAcceptJson***](../../src/Middleware/ForcedAcceptJson.php) provided to set `Accept: application/json` to the request header, feel free to use it.
 
 If you want to use a custom renderer, please see [Configuration](./configuration.md) for more details.
 
@@ -85,9 +117,6 @@ class UserLoginFailedException extends ApiException
 From the example above, it is strongly recommended to use the `config()` helper function to access the ApiCode enumeration. Although this may make it hard to track the source, it ensures that the entire project uses the same enumeration. A more developer-friendly alternative is to ensure that the ApiCode enumeration used throughout the project matches the configuration in the [configuration](./configuration.md). This will make it more convenient for developers to use the ApiCode enumeration, but it may cause more time spent when changing the enumeration used in the future. Both two way have their pros and cons, so choose the one that best suits your needs.
 
 ## ApiCode
-
-> [!TIP]
-> Here, only an example of **PHP native enumeration** is provided. If you are using the [myclabs/php-enum](https://github.com/myclabs/php-enum) library, please adjust the example accordingly.
 
 There is an ApiCode enumeration example following, and assuming it is created in the ***app/Enums*** folder. If you need more details for customizing ApiCode, please see [Configuration](./configuration.md).
 
@@ -126,7 +155,7 @@ enum ApiCode: string implements ApiCodeContract
             self::ValidationException => Response::HTTP_UNPROCESSABLE_ENTITY,
             self::AuthenticationException => Response::HTTP_UNAUTHORIZED,
 
-            default::Response::HTTP_BAD_REQUEST,
+            default::Response => HTTP_BAD_REQUEST,
         };
     }
 

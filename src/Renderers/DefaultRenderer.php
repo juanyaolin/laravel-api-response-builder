@@ -14,24 +14,16 @@ class DefaultRenderer implements ExceptionRendererContract
 {
     use HasApiResponseMethods;
 
-    /**
-     * The adaptor match to $throwable.
-     */
+    /** The adaptor match to $throwable. */
     protected ExceptionAdaptorContract $adaptor;
 
-    /**
-     * The configs of adaptors.
-     */
+    /** The configs of adaptors. */
     protected array $configs;
 
-    /**
-     * The exception needs to render.
-     */
+    /** The exception needs to render. */
     protected Throwable $throwable;
 
-    /**
-     * The request.
-     */
+    /** The request. */
     protected Request $request;
 
     public function render(Throwable $throwable, Request $request): ?Response

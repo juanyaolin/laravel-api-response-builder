@@ -7,21 +7,17 @@ use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
-use MyCLabs\Enum\Enum;
 use UnitEnum;
 
 class ValidationExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    protected ValidationException $exception;
-
-    public function __construct(ValidationException $exception)
+    public function __construct(protected ValidationException $exception)
     {
-        $this->exception = $exception;
     }
 
-    public function apiCode()
+    public function apiCode(): int|string
     {
         return $this->apiCodeEnum()->apiCode();
     }
@@ -57,14 +53,10 @@ class ValidationExceptionAdaptor implements ExceptionAdaptorContract
     }
 
     /**
-     * @return ApiCodeContract|Enum|UnitEnum
+     * The enum case for ValidationException.
      */
-    protected function apiCodeEnum()
+    protected function apiCodeEnum(): ApiCodeContract|UnitEnum
     {
-        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
-
-        return is_subclass_of($apiCodeClass, Enum::class)
-            ? $apiCodeClass::ValidationException()
-            : $apiCodeClass::ValidationException;
+        return config(Constant::CONF_KEY_API_CODE_CLASS)::ValidationException;
     }
 }

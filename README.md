@@ -7,10 +7,6 @@
 
 `ApiResponseBuilder` is inspired by the [marcin-orlowski/laravel-api-response-builder](https://github.com/MarcinOrlowski/laravel-api-response-builder) with adjustments made to its features.
 
-> [!CAUTION]
-> This project is still in development, and it's not recommended to use it until version 1.0.0 (official release).
-
-
 ## Installation
 
 To install package, run with composer:
@@ -55,4 +51,4 @@ And you will get following response.
 }
 ```
 
-More detailed information can be found in [documents](documents/documents.md).
+More detailed information can be found in [documents](documents/en/documents.md).

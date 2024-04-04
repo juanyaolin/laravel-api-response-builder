@@ -20,7 +20,12 @@ composer require juanyaolin/laravel-api-response-builder
 
 This project supports Laravel's auto-discovery feature, and it is automatically enabled upon installation.
 
-If auto-discovery doesn't happen, manually add `ApiResponseBuilderServiceProvider` to the `providers` array in ***config/app.php***, like the following code:
+If auto-discovery doesn't work, manually add `ApiResponseBuilderServiceProvider` to the `providers` array. It's a little bit different between Laravel version *less than 10.x* and *upper than 11.x*.
+
+
+### For version less than Laravel 10.x
+
+You need to add Service Provider class to providers array in ***config/app.php***, like the following code:
 
 ```php
 return [
@@ -35,6 +40,23 @@ return [
         */
         \Juanyaolin\ApiResponseBuilder\ApiResponseBuilderServiceProvider::class
     ])->toArray(),
+
+    ...
+];
+```
+
+### For version upper than Laravel 11.x
+
+The providers array is moved to ***bootstrap/providers.php***, so you should add Service Provider class to return array of the file, as following:
+
+```php
+return [
+    ...
+
+    /*
+     * Customize Service Providers...
+     */
+    \Juanyaolin\ApiResponseBuilder\ApiResponseBuilderServiceProvider::class,
 
     ...
 ];

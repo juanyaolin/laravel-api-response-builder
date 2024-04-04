@@ -6,10 +6,8 @@ interface ExceptionAdaptorContract
 {
     /**
      * Api code of of exception or throwable.
-     *
-     * @return int|string
      */
-    public function apiCode();
+    public function apiCode(): int|string;
 
     /**
      * Http status code of exception or throwable.
@@ -24,7 +22,7 @@ interface ExceptionAdaptorContract
     /**
      * Data of exception or throwable.
      */
-    public function data();
+    public function data(): mixed;
 
     /**
      * Debug information of exception or throwable.

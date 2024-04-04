@@ -10,5 +10,6 @@
 * [x] ApiResponseBuilder
 * [x] ApiResponse Facade
 * [x] ExceptionRenderer Facade
-* [ ] Unit Test
+* [ ] Testing
 * [ ] i18n
+* [ ] Artisan command for making subclass of ApiException

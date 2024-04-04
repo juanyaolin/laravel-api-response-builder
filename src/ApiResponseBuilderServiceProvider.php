@@ -12,7 +12,6 @@ use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionRendererContract;
 use Juanyaolin\ApiResponseBuilder\Exceptions\LackedEnumCaseOfApiCodeException;
 use Juanyaolin\ApiResponseBuilder\Exceptions\ShouldBeEnumException;
 use Juanyaolin\ApiResponseBuilder\Exceptions\ShouldBeSubclassOfContractException;
-use MyCLabs\Enum\Enum;
 use ReflectionClass;
 use UnitEnum;
 
@@ -95,11 +94,10 @@ class ApiResponseBuilderServiceProvider extends ServiceProvider
 
             // Checking if ApiCode class is an enumeration.
             if ($config['interface'] === ApiCodeContract::class) {
-                $isEnum = is_subclass_of($config['class'], Enum::class);
                 $isUnitEnum = is_subclass_of($config['class'], UnitEnum::class);
 
                 throw_unless(
-                    $isEnum || $isUnitEnum,
+                    $isUnitEnum,
                     ShouldBeEnumException::class,
                     $config['class']
                 );

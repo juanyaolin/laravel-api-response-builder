@@ -20,7 +20,11 @@ composer require juanyaolin/laravel-api-response-builder
 
 本專案支援Laravel的自動發現(auto-discovery)功能，安裝後便已自動啟用。
 
-如果沒有自動啟用，請在 ***config/app.php*** 的providers陣列中加入 `ApiResponseBuilderServiceProvider`，如下程式碼。
+如果沒有自動啟用，請手動將 `ApiResponseBuilderServiceProvider` 加到providers陣列中。由於Laravel v11.x大幅調整了檔案結構並重構application的基礎，因而新舊版本的providers陣列的檔案位置有所不同。
+
+### Laravel 10.x 前的版本
+
+對於過往的版本，請將Service Provider類別加到 ***config/app.php*** 的providers陣列中，如下程式碼。
 
 ```php
 return [
@@ -31,10 +35,27 @@ return [
         ...
 
         /*
-        * Customize Service Providers...
-        */
+         * Customize Service Providers...
+         */
         \Juanyaolin\ApiResponseBuilder\ApiResponseBuilderServiceProvider::class
     ])->toArray(),
+
+    ...
+];
+```
+
+### Laravel 11.x 後的版本
+
+對於較新的版本，請將Service Provider類別加到 ***bootstrap/providers.php*** 的返回陣列中，如下程式碼。
+
+```php
+return [
+    ...
+
+    /*
+     * Customize Service Providers...
+     */
+    \Juanyaolin\ApiResponseBuilder\ApiResponseBuilderServiceProvider::class,
 
     ...
 ];

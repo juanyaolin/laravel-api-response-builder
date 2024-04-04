@@ -5,70 +5,45 @@ namespace Juanyaolin\ApiResponseBuilder;
 use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Exceptions\InvalidTypeOfApiCodeException;
-use MyCLabs\Enum\Enum;
 use Symfony\Component\HttpFoundation\Response;
 use UnitEnum;
 
 class ApiResponseBuilder
 {
-    /**
-     * Determine if the api is processed successful.
-     */
+    /** Determine if the api is processed successful. */
     protected bool $success;
 
-    /**
-     * The api code of response.
-     *
-     * @var int|string
-     */
-    protected $apiCode;
+    /** The api code of response. */
+    protected int|string $apiCode;
 
-    /**
-     * Http status code.
-     */
+    /** Http status code. */
     protected int $statusCode;
 
-    /**
-     * The message of response.
-     */
+    /** The message of response. */
     protected string $message;
 
-    /**
-     * The data of response.
-     */
-    protected $data;
+    /** The data of response. */
+    protected mixed $data;
 
-    /**
-     * The data for debugging.
-     */
+    /** The data for debugging. */
     protected ?array $debugData;
 
-    /**
-     * Additional data for developer customization.
-     */
+    /** Additional data for developer customization. */
     protected ?array $additional;
 
-    /**
-     * The http response headers.
-     */
+    /** The http response headers. */
     protected array $httpHeaders;
 
-    /**
-     * The options for JSON encoding.
-     */
+    /** The options for JSON encoding. */
     protected int $jsonOptions;
 
-    /**
-     * The payload of response to build.
-     */
+    /** The payload of response to build. */
     protected array $responsePayload;
 
     /**
      * Only can be initiated by asSuccess() and asError().
-     *
-     * @param int|string|null $apiCode
      */
-    protected function __construct(bool $success, $apiCode = null)
+    protected function __construct(bool $success, int|string|null $apiCode = null)
     {
         throw_if(
             !is_null($apiCode) && !is_int($apiCode) && !is_string($apiCode),
@@ -94,12 +69,8 @@ class ApiResponseBuilder
      * Initiate an instance of ApiResponseBuilder as api called successful.
      *
      * By default, make a response in Success case of ApiCode.
-     *
-     * @param int|string|null $apiCode
-     *
-     * @return static
      */
-    public static function asSuccess($apiCode = null)
+    public static function asSuccess(int|string|null $apiCode = null): static
     {
         return new static(true, $apiCode);
     }
@@ -107,13 +78,9 @@ class ApiResponseBuilder
     /**
      * Initiate an instance of ApiResponseBuilder as api called failed.
      *
-     * By default, make a response in UncaughtException case of ApiCode.
-     *
-     * @param int|string|null $apiCode
-     *
-     * @return static
+     * By default, make a response in Error case of ApiCode.
      */
-    public static function asError($apiCode = null)
+    public static function asError(int|string|null $apiCode = null): static
     {
         return new static(false, $apiCode);
     }
@@ -123,7 +90,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withStatusCode(int $statusCode = null)
+    public function withStatusCode(?int $statusCode = null)
     {
         if (!is_null($statusCode)) {
             $this->statusCode = $statusCode;
@@ -137,7 +104,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withMessage(string $message = null)
+    public function withMessage(?string $message = null)
     {
         if (!is_null($message)) {
             $this->message = $message;
@@ -151,7 +118,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withData($data = null)
+    public function withData(mixed $data = null)
     {
         if (!is_null($data)) {
             $this->data = $data;
@@ -165,7 +132,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withDebugData(array $debugData = null)
+    public function withDebugData(?array $debugData = null)
     {
         if (!is_null($debugData)) {
             $this->debugData = $debugData;
@@ -179,7 +146,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withAdditional(array $additional = null)
+    public function withAdditional(?array $additional = null)
     {
         if (!is_null($additional)) {
             $this->additional = $additional;
@@ -193,7 +160,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withHttpHeaders(array $httpHeaders = null)
+    public function withHttpHeaders(?array $httpHeaders = null)
     {
         if (!is_null($httpHeaders)) {
             $this->httpHeaders = $httpHeaders;
@@ -207,7 +174,7 @@ class ApiResponseBuilder
      *
      * @return $this
      */
-    public function withJsonOptions(int $jsonOptions = null)
+    public function withJsonOptions(?int $jsonOptions = null)
     {
         if (!is_null($jsonOptions)) {
             $this->jsonOptions = $jsonOptions;
@@ -227,37 +194,24 @@ class ApiResponseBuilder
     /**
      * Default api code by successful.
      */
-    protected function defaultapiCode()
+    protected function defaultapiCode(): int|string
     {
         $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
 
-        if (is_subclass_of($apiCodeClass, Enum::class)) {
-            /** @var ApiCodeContract */
-            $apiCodeEnum = $this->success
-                ? $apiCodeClass::Success()
-                : $apiCodeClass::Error();
-        } else {
-            /** @var ApiCodeContract */
-            $apiCodeEnum = $this->success
-                ? $apiCodeClass::Success
-                : $apiCodeClass::Error;
-        }
+        /** @var ApiCodeContract */
+        $apiCodeEnum = $this->success
+            ? $apiCodeClass::Success
+            : $apiCodeClass::Error;
 
         return $apiCodeEnum->apiCode();
     }
 
     /**
      * The enum of provided api code.
-     *
-     * @return ApiCodeContract|Enum|UnitEnum
      */
-    protected function apiCodeEnum()
+    protected function apiCodeEnum(): ApiCodeContract|UnitEnum
     {
-        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
-
-        return is_subclass_of($apiCodeClass, Enum::class)
-            ? new $apiCodeClass($this->apiCode)
-            : $apiCodeClass::tryFrom($this->apiCode);
+        return config(Constant::CONF_KEY_API_CODE_CLASS)::tryFrom($this->apiCode);
     }
 
     /**

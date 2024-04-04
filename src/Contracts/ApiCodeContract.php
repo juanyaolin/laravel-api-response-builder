@@ -6,10 +6,8 @@ interface ApiCodeContract
 {
     /**
      * Value of ApiCode enumeration case.
-     *
-     * @return int|string
      */
-    public function apiCode();
+    public function apiCode(): int|string;
 
     /**
      * Http status code of enumeration case.

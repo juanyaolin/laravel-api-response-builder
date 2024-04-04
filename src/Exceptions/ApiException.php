@@ -4,7 +4,6 @@ namespace Juanyaolin\ApiResponseBuilder\Exceptions;
 
 use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
-use MyCLabs\Enum\Enum;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
@@ -12,20 +11,16 @@ use UnitEnum;
 
 class ApiException extends RuntimeException implements ApiExceptionInterface, HttpExceptionInterface
 {
-    /**
-     * The data.
-     */
+    /** The data. */
     protected $data;
 
-    /**
-     * The additional data.
-     */
+    /** The additional data. */
     protected $additional;
 
     public function __construct(
-        string $message = null,
+        ?string $message = null,
         int $code = 0,
-        Throwable $previous = null,
+        ?Throwable $previous = null,
         $data = null,
         $additional = null
     ) {
@@ -39,7 +34,7 @@ class ApiException extends RuntimeException implements ApiExceptionInterface, Ht
         $this->additional = $additional;
     }
 
-    public function getApiCode()
+    public function getApiCode(): int|string
     {
         return $this->apiCodeEnum()->apiCode();
     }
@@ -49,7 +44,7 @@ class ApiException extends RuntimeException implements ApiExceptionInterface, Ht
         return $this->apiCodeEnum()->statusCode();
     }
 
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
@@ -66,15 +61,9 @@ class ApiException extends RuntimeException implements ApiExceptionInterface, Ht
 
     /**
      * The enum case for ApiException.
-     *
-     * @return ApiCodeContract|Enum|UnitEnum
      */
-    protected function apiCodeEnum()
+    protected function apiCodeEnum(): ApiCodeContract|UnitEnum
     {
-        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
-
-        return is_subclass_of($apiCodeClass, Enum::class)
-            ? $apiCodeClass::ApiException()
-            : $apiCodeClass::ApiException;
+        return config(Constant::CONF_KEY_API_CODE_CLASS)::ApiException;
     }
 }

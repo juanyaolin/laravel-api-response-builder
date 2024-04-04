@@ -3,12 +3,12 @@
 namespace Juanyaolin\ApiResponseBuilder\Exceptions;
 
 use InvalidArgumentException;
-use MyCLabs\Enum\Enum;
+use UnitEnum;
 
 class ShouldBeEnumException extends InvalidArgumentException
 {
-    public function __construct(string $class, string $abstract = Enum::class)
+    public function __construct(string $class, string $abstract = UnitEnum::class)
     {
-        parent::__construct("Class [{$class}] should be subclass of [{$abstract}] or an enum(>= PHP8.1)");
+        parent::__construct("Class [{$class}] should be subclass of [{$abstract}].");
     }
 }

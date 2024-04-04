@@ -12,7 +12,11 @@
 
 如果您已經使用了本專案提供的 `ApiResponse` facade來返回成功或失敗的回應，相信您的客戶端不會希望收到非JSON或不同結構格式的回應導致非預期的錯誤發生，因此強烈建議您也啟用例外渲染器(Exception Renderer)以確保來自Laravel專案的回應具有同樣的結構格式。
 
-啟用例外渲染器的方式很簡單，請在Laravel專案的例外處理類 ***App\Exceptions\Handler*** 中，將渲染器facade的方法 `ExceptionRenderer::render()` 以閉包(Closure)的方式，在 `register()` 方法內帶入 `renderable()` 方法，就如下方的範例程式。
+由於Laravel 11調整了Laravel專案的檔案結構，同時也變更了許多功能的使用方式，而例外處理就是其中之一。接下來的內容，將分別介紹兩者的例外渲染器啟用方式。
+
+### Laravel 10.x前的啟用方式
+
+對於過往的版本，請在Laravel專案的例外處理類 ***App\Exceptions\Handler*** 中，將渲染器facade的方法 `ExceptionRenderer::render()` 以閉包(Closure)的方式，在 `register()` 方法內帶入 `renderable()` 方法，就如下方的範例程式。
 
 ```php
 <?php
@@ -47,10 +51,39 @@ class Handler extends ExceptionHandler
 }
 ```
 
-至此，您的客戶端提交的請求標頭(Request Header)中要求回應是json `Accept: application/json` 的話，Laravel將會在例外觸發時返回相同的結構格式。
+### Laravel 11.x後的啟用方式
+
+對於較新的版本，啟用方法實際上與過往版本很相似，差別只在啟用的位置不同。請將渲染器facade的方法 `ExceptionRenderer::render()` 以閉包(Closure)的方式，在Laravel專案 ***bootstrap/app.php*** 的例外處理函數 `withExceptions()` 中，帶入到 `render()` 或 `renderable()` 方法。
+
+```php
+<?php
+
+    ...
+
+    ->withExceptions(function (Exceptions $exceptions) {
+        // 將渲染器以閉包的方式帶入 renderable 方法中
+        $exceptions->renderable(function (Throwable $e, Request $request) {
+            if ($request->expectsJson()) {
+                return ExceptionRenderer::render($e, $request);
+            }
+        });
+
+        // 帶入到render方法也可以
+        // $exceptions->render(function (Throwable $e, Request $request) {
+        //     if ($request->expectsJson()) {
+        //         return ExceptionRenderer::render($e, $request);
+        //     }
+        // });
+    })
+
+    ...
+
+```
+
+完成上述動作後，您的客戶端提交的請求標頭(Request Header)中要求回應是json `Accept: application/json` 的話，Laravel將會在例外觸發時返回相同的結構格式。
 
 > [!TIP]
-> 我們額外提供名為 [***ForcedAcceptJson***](../../src/Middleware/ForcedAcceptJson.php) 的中間件(Middleware)使Laravel在請求標頭中添加 `Accept: application/json`，可以根據您的需求決定是否使用它。關於中間件的使用方式請參考[官方說明](https://laravel.com/docs/10.x/middleware)。
+> 本專案額外提供名為 [***ForcedAcceptJson***](../../src/Middleware/ForcedAcceptJson.php) 的中間件(Middleware)使Laravel在請求標頭中添加 `Accept: application/json`，可以根據您的需求決定是否使用它。
 
 若您想使用自訂的渲染器，請前往[配置設定檔](./configuration.md)深入了解如何客製化。
 
@@ -85,9 +118,6 @@ class UserLoginFailedException extends ApiException
 由以上範例可以得知，本專案強烈地建議您使用輔助方法 `config()` 來操作ApiCode枚舉。雖然這將導致難以追蹤來源，但它能確保整個專案使用相同的枚舉。而對開發者較為友善的替代方案是，確保您實際在專案各處使用的ApiCode枚舉與[設定檔](./configuration.md)中的配置相同即可。這將使開發者能更加方便的使用ApiCode枚舉，但可能會增加未來變更使用的枚舉時的時間花費。兩種方法各有利弊，請根據您的開發需求決定使用的方式。
 
 ## ApiCode
-
-> [!TIP]
-> 這裡只提供 **PHP原生枚舉** 的範例，若您使用套件 [myclabs/php-enum](https://github.com/myclabs/php-enum) 則請根據範例加以調整。
 
 這裡將只會提出ApiCode的範例，若您想要詳細了解如何自訂ApiCode枚舉，建議您先看完[配置設定檔](./configuration.md)當中的說明。
 
@@ -127,7 +157,7 @@ enum ApiCode: string implements ApiCodeContract
             self::ValidationException => Response::HTTP_UNPROCESSABLE_ENTITY,
             self::AuthenticationException => Response::HTTP_UNAUTHORIZED,
 
-            default::Response::HTTP_BAD_REQUEST,
+            default => Response::HTTP_BAD_REQUEST,
         };
     }
 

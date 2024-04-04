@@ -35,9 +35,9 @@
 包含了各種ApiCode案例的枚舉類，將會使用在 [ApiResponseBuilder.php](../../src/ApiResponseBuilder.php) 和各個ExceptionAdaptor中。
 
 > [!TIP]
-> 由於在PHP8.1之前不存在原生的枚舉功能，因而使用套件 [myclabs/php-enum](https://github.com/myclabs/php-enum) 替代。若您的PHP版本在8.1以上，請直接使用原生的枚舉功能開發，此專案在未來將取消對 *myclabs/php-enum* 套件的支援。
+> 強烈建議您自訂ApiCode枚舉，以符合實際開發需求。
 
-強烈建議您自訂ApiCode枚舉以便符合實際開發需求，在建立您的ApiCode時有幾件事需要特別留意。
+在建立您的ApiCode時有幾件事需要特別留意。
 
 首先，您自訂的枚舉必須「**實作(implement)**」 [***ApiResponseContract***](../../src/Contracts/ApiCodeContract.php) 使套件能利用特定的方法取得枚舉案例(enum case)的對應資料。
 
@@ -61,7 +61,7 @@
 
 最後，若您不需要使用到ApiCode的話，請在此設定選項保留預設值，缺少此設定將會導致套件無法正常運作。
 
-實際上，最簡單的自訂方式是直接複製 [DefaultApiCodeClass.php](../../src/ApiCodes/DefaultApiCodeClass.php) 或 [DefaultApiCodeEnum.php](../../src/ApiCodes/DefaultApiCodeEnum.php) 的內容後，調整枚舉名稱(Class Name)、命名空間(Namespace)及各個枚舉案例所屬的值。
+實際上，最簡單的自訂方式是直接複製 [DefaultApiCodeEnum.php](../../src/ApiCodes/DefaultApiCodeEnum.php) 的內容後，調整枚舉名稱(Class Name)、命名空間(Namespace)及各個枚舉案例所屬的值。
 
 ApiCode在大多情況會與例外處理一起使用，因此自訂ApiCode的範例將在[例外處理](./exception.md)章節中一併展示。
 

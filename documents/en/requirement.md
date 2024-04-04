@@ -2,4 +2,9 @@
 
 [&laquo; Documentation](./documents.md)
 
-`ApiResponseBuilder` requires PHP version higher than `PHP v7.4`, and Laravel version higher than `Laravel v8.x`.
+* `ApiResponseBuilder` requires PHP version higher than `PHP v8.1` for using **Native Enumeration**.
+
+* `ApiResponseBuilder` support Laravel with following versions
+  * Laravel 10.x
+  * Laravel 11.x
+

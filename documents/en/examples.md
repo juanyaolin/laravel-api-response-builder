@@ -208,6 +208,9 @@ class Controller extends BaseController
 }
 ```
 
+> [!NOTICE]
+> Though ***App\Http\Controllers\Controller*** has been an abstract class after Laravel 11.x, the way of using trait has not changed.
+
 Now, all controllers that inherit *App\Http\Controllers\Controller* will have the `success()` and `error()` methods. This means you can call these two methods by **$this**.
 
 ```php

@@ -15,7 +15,7 @@ enum DefaultApiCodeEnum: int implements ApiCodeContract
     case HttpException = -5;
     case ApiException = -6;
 
-    public function apiCode()
+    public function apiCode(): int|string
     {
         return $this->value;
     }

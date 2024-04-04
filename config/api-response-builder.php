@@ -8,12 +8,10 @@ return [
         /**
          * The enumeration class name used for ApiCode.
          *
-         * Native enumeration is not supported before php8.1, using package `MyCLabs\Enum` class instead. If
-         * php version of your Laravel application is higher than php8.1, feel free to choose between
-         * `native enum` and `MyCLabs\Enum`. Notice that there are few points to customize your ApiCode
-         * enumeration, please see documents for more details.
+         * Notice that there are few points to customize your ApiCode enumeration, please
+         * see documents for more details.
          */
-        'class' => \Juanyaolin\ApiResponseBuilder\ApiCodes\DefaultApiCodeClass::class,
+        'class' => Juanyaolin\ApiResponseBuilder\ApiCodes\DefaultApiCodeEnum::class,
     ],
 
     /**
@@ -25,7 +23,7 @@ return [
          *
          * Feel free to change, and make sure to be a subclass of 'ApiResponseStructureContract'.
          */
-        'structure' => \Juanyaolin\ApiResponseBuilder\Structures\DefaultStructure::class,
+        'structure' => Juanyaolin\ApiResponseBuilder\Structures\DefaultStructure::class,
 
         /**
          * JSON encoding options.
@@ -47,7 +45,7 @@ return [
          *
          * Feel free to change, and make sure to be a subclass of 'ApiResponseContract'.
          */
-        'class' => \Juanyaolin\ApiResponseBuilder\Responses\DefaultApiResponse::class,
+        'class' => Juanyaolin\ApiResponseBuilder\Responses\DefaultApiResponse::class,
     ],
 
     /**
@@ -64,7 +62,7 @@ return [
          *
          * Feel free to change, and make sure to be a subclass of 'ExceptionRendererContract'.
          */
-        'class' => \Juanyaolin\ApiResponseBuilder\Renderers\DefaultRenderer::class,
+        'class' => Juanyaolin\ApiResponseBuilder\Renderers\DefaultRenderer::class,
 
         /**
          * Exception adaptors for ExceptionRenderer.
@@ -103,24 +101,24 @@ return [
          *  ]
          */
         'adaptors' => [
-            \Juanyaolin\ApiResponseBuilder\Exceptions\ApiException::class => [
-                'adaptor' => \Juanyaolin\ApiResponseBuilder\Adaptors\ApiExceptionAdaptor::class,
+            Juanyaolin\ApiResponseBuilder\Exceptions\ApiException::class => [
+                'adaptor' => Juanyaolin\ApiResponseBuilder\Adaptors\ApiExceptionAdaptor::class,
                 'priority' => -100,
             ],
-            \Illuminate\Validation\ValidationException::class => [
-                'adaptor' => \Juanyaolin\ApiResponseBuilder\Adaptors\ValidationExceptionAdaptor::class,
+            Illuminate\Validation\ValidationException::class => [
+                'adaptor' => Juanyaolin\ApiResponseBuilder\Adaptors\ValidationExceptionAdaptor::class,
                 'priority' => -100,
             ],
-            \Symfony\Component\HttpKernel\Exception\HttpException::class => [
-                'adaptor' => \Juanyaolin\ApiResponseBuilder\Adaptors\HttpExceptionAdaptor::class,
+            Symfony\Component\HttpKernel\Exception\HttpException::class => [
+                'adaptor' => Juanyaolin\ApiResponseBuilder\Adaptors\HttpExceptionAdaptor::class,
                 'priority' => -100,
             ],
-            \Illuminate\Auth\AuthenticationException::class => [
-                'adaptor' => \Juanyaolin\ApiResponseBuilder\Adaptors\AuthenticationExceptionAdaptor::class,
+            Illuminate\Auth\AuthenticationException::class => [
+                'adaptor' => Juanyaolin\ApiResponseBuilder\Adaptors\AuthenticationExceptionAdaptor::class,
                 'priority' => -100,
             ],
             'default' => [
-                'adaptor' => \Juanyaolin\ApiResponseBuilder\Adaptors\DefaultExceptionAdaptor::class,
+                'adaptor' => Juanyaolin\ApiResponseBuilder\Adaptors\DefaultExceptionAdaptor::class,
                 'priority' => -127,
             ],
         ],

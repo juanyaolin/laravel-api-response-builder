@@ -4,51 +4,35 @@ namespace Juanyaolin\ApiResponseBuilder\Contracts;
 
 abstract class ApiResponseStructureContract
 {
-    /**
-     * Determine if the api is processed successful.
-     */
-    protected ?bool $success = null;
+    /** Determine if the api is processed successful. */
+    protected bool $success;
 
-    /**
-     * The api code of response.
-     *
-     * @var int|string|null
-     */
-    protected $apiCode;
+    /** The api code of response. */
+    protected int|string $apiCode;
 
-    /**
-     * Http status code.
-     */
-    protected ?int $statusCode = null;
+    /** Http status code. */
+    protected int $statusCode;
 
-    /**
-     * The message of response.
-     */
-    protected ?string $message = null;
+    /** The message of response. */
+    protected string $message;
 
-    /**
-     * The data of response.
-     */
-    protected $data;
+    /** The data of response. */
+    protected mixed $data;
 
-    /**
-     * The data for debugging.
-     */
+    /** The data for debugging. */
     protected ?array $debugData = null;
 
-    /**
-     * Additional data for developer customization.
-     */
+    /** Additional data for developer customization. */
     protected ?array $additional = null;
 
     public function __construct(
-        bool $success = null,
-        $apiCode = null,
-        int $statusCode = null,
-        string $message = null,
-        $data = null,
-        array $debugData = null,
-        array $additional = null
+        bool $success,
+        int|string $apiCode,
+        int $statusCode,
+        string $message,
+        mixed $data = null,
+        ?array $debugData = null,
+        ?array $additional = null
     ) {
         $this->success = $success;
         $this->apiCode = $apiCode;

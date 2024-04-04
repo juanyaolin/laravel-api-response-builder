@@ -208,6 +208,9 @@ class Controller extends BaseController
 }
 ```
 
+> [!NOTICE]
+> 在Laravel 11.x後， ***App\Http\Controllers\Controller*** 變成了獨立的抽象類別，但方法的引入方式並未改變。
+
 隨後，所有繼承了 *App\Http\Controllers\Controller* 的控制器(Controller)物件將包含 `success()` 和 `error()` 方法。也就是說，現在您能透過 **$this** 呼叫這兩個方法。
 
 ```php

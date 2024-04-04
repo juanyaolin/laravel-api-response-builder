@@ -7,9 +7,6 @@
 
 `ApiResponseBuilder` 是受到 [MarcinOrlowski專案](https://github.com/MarcinOrlowski/laravel-api-response-builder) 的啟發並對其中的功能做調整。
 
-> [!CAUTION]
-> 此專案仍處於開發階段，在v1.0.0(正式版)發布以前不建議您使用此專案。
-
 ## 套件安裝
 
 要安裝套件，只需要執行以下指令:

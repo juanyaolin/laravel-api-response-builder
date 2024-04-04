@@ -7,7 +7,6 @@ use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
-use MyCLabs\Enum\Enum;
 use Symfony\Component\HttpFoundation\Response;
 use UnitEnum;
 
@@ -15,14 +14,11 @@ class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    protected AuthenticationException $exception;
-
-    public function __construct(AuthenticationException $exception)
+    public function __construct(protected AuthenticationException $exception)
     {
-        $this->exception = $exception;
     }
 
-    public function apiCode()
+    public function apiCode(): int|string
     {
         return $this->apiCodeEnum()->apiCode();
     }
@@ -45,7 +41,7 @@ class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
         );
     }
 
-    public function data()
+    public function data(): mixed
     {
         return null;
     }
@@ -66,14 +62,10 @@ class AuthenticationExceptionAdaptor implements ExceptionAdaptorContract
     }
 
     /**
-     * @return ApiCodeContract|Enum|UnitEnum
+     * The enum case for AuthenticationException.
      */
-    protected function apiCodeEnum()
+    protected function apiCodeEnum(): ApiCodeContract|UnitEnum
     {
-        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
-
-        return is_subclass_of($apiCodeClass, Enum::class)
-            ? $apiCodeClass::AuthenticationException()
-            : $apiCodeClass::AuthenticationException;
+        return config(Constant::CONF_KEY_API_CODE_CLASS)::AuthenticationException;
     }
 }

@@ -6,7 +6,6 @@ use Juanyaolin\ApiResponseBuilder\ApiResponseBuilderConstant as Constant;
 use Juanyaolin\ApiResponseBuilder\Contracts\ApiCodeContract;
 use Juanyaolin\ApiResponseBuilder\Contracts\ExceptionAdaptorContract;
 use Juanyaolin\ApiResponseBuilder\Traits\HasExceptionToArrayConvertion;
-use MyCLabs\Enum\Enum;
 use Throwable;
 use UnitEnum;
 
@@ -14,14 +13,11 @@ class DefaultExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    protected Throwable $exception;
-
-    public function __construct(Throwable $exception)
+    public function __construct(protected Throwable $exception)
     {
-        $this->exception = $exception;
     }
 
-    public function apiCode()
+    public function apiCode(): int|string
     {
         return $this->apiCodeEnum()->apiCode();
     }
@@ -38,7 +34,7 @@ class DefaultExceptionAdaptor implements ExceptionAdaptorContract
             : $this->apiCodeEnum()->message();
     }
 
-    public function data()
+    public function data(): mixed
     {
         return null;
     }
@@ -59,14 +55,10 @@ class DefaultExceptionAdaptor implements ExceptionAdaptorContract
     }
 
     /**
-     * @return ApiCodeContract|Enum|UnitEnum
+     * The enum case for UncaughtException.
      */
-    protected function apiCodeEnum()
+    protected function apiCodeEnum(): ApiCodeContract|UnitEnum
     {
-        $apiCodeClass = config(Constant::CONF_KEY_API_CODE_CLASS);
-
-        return is_subclass_of($apiCodeClass, Enum::class)
-            ? $apiCodeClass::UncaughtException()
-            : $apiCodeClass::UncaughtException;
+        return config(Constant::CONF_KEY_API_CODE_CLASS)::UncaughtException;
     }
 }

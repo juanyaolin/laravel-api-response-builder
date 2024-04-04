@@ -10,14 +10,11 @@ class ApiExceptionAdaptor implements ExceptionAdaptorContract
 {
     use HasExceptionToArrayConvertion;
 
-    protected ApiException $exception;
-
-    public function __construct(ApiException $exception)
+    public function __construct(protected ApiException $exception)
     {
-        $this->exception = $exception;
     }
 
-    public function apiCode()
+    public function apiCode(): int|string
     {
         return $this->exception->getApiCode();
     }
@@ -32,7 +29,7 @@ class ApiExceptionAdaptor implements ExceptionAdaptorContract
         return $this->exception->getMessage();
     }
 
-    public function data()
+    public function data(): mixed
     {
         return $this->exception->getData();
     }

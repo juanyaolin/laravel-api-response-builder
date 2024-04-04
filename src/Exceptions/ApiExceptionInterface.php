@@ -8,15 +8,13 @@ interface ApiExceptionInterface extends Throwable
 {
     /**
      * Gets the api code.
-     *
-     * @return int|string
      */
-    public function getApiCode();
+    public function getApiCode(): int|string;
 
     /**
      * Gets the data.
      */
-    public function getData();
+    public function getData(): mixed;
 
     /**
      * Get the additional data.

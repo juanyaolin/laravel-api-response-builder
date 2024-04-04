@@ -35,9 +35,9 @@ Please note that in most cases, using the default values and adjusting the optio
 An enumeration class with various ApiCode cases. This will be used in [ApiResponseBuilder.php](../../src/ApiResponseBuilder.php) and various ExceptionAdaptors.
 
 > [!TIP]
-> Due to native enumeration is not supported before PHP 8.1, using [myclabs/php-enum](https://github.com/myclabs/php-enum) instead. And please using native enumeration if your PHP version is 8.1 or above, as support for the *myclabs/php-enum* library will be deprecated future in this library.
+> It is highly recommended to customize the ApiCode enumeration to meet actual development needs.
 
-It is highly recommended to customize the ApiCode enumeration to meet actual development needs. When creating your ApiCode, there are a few things to note:
+When creating your ApiCode, there are a few things to note:
 
 Firstly, your custom enumeration must "implement" [***ApiResponseContract***](../../src/Contracts/ApiCodeContract.php) for obtaining data from those methods.
 
@@ -61,7 +61,7 @@ Next, in your custom enumeration, you must declare the following cases:
 
 Finally, if you do not need to use ApiCode, keep this option with the default value. The library will break if this option is lost.
 
-In practice, the simplest way to customize is to copy [DefaultApiCodeClass.php](../../src/ApiCodes/DefaultApiCodeClass.php) or [DefaultApiCodeEnum.php](../../src/ApiCodes/DefaultApiCodeEnum.php), modify the class name, namespace, and values of each enumeration case.
+In practice, the simplest way to customize is to copy [DefaultApiCodeEnum.php](../../src/ApiCodes/DefaultApiCodeEnum.php), modify the class name, namespace, and values of each enumeration case.
 
 ApiCode is usually used with exception handling, customized example of ApiCode will be shown in [Exception Handling](./exception.md).
 

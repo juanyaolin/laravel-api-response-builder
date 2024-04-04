@@ -32,7 +32,7 @@ class ValidationExceptionAdaptor implements ExceptionAdaptorContract
         return $this->exception->getMessage();
     }
 
-    public function data()
+    public function data(): mixed
     {
         return $this->exception->errors();
     }
